@@ -1,0 +1,12 @@
+accelerate==0.21.0
+bitsandbytes==0.40.2
+datasets==2.11.0
+peft==0.4.0
+torch==1.13.1
+torchtext==0.14.1
+torchaudio==0.13.1
+torchvision==0.14.1
+transformers==4.31.0
+tokenizers==0.13.3
+-f https://download.pytorch.org/whl/cu117
+-i https://pypi.python.org/simple
