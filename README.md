@@ -51,9 +51,21 @@ If a question does not make any sense, or is not factually coherent, explain why
 
 양파는 어떤 식물 부위인가요? 그리고 고구마는 뿌리인가요? [/INST] 양파는 잎이 아닌 식물의 줄기 부분입니다. 고구마는 식물의 뿌리 부분입니다. 
 
-식물의 부위의 구분에 대해 궁금해하는 분이라면 분명 이 질문에 대한 답을 찾고 있을 것입니다. 양파는 잎이 아닌 줄기 부분입니다. 고구마는 다른 질문과 답변에서 언급된 것과 같이 뿌리 부분입니다. 따라서, 양파는 식물의 줄기 부분이 되고, 고구마는 식물의 뿌리 부분입니다.
+식물의 부위의 구분에 대해 궁금해하는 분이라면 분명 이 질문에 대한 답을 찾고 있을 것입니다. 양파는 잎이 아닌 줄기 부분입니다...</s>
+```
 
- 덧붙이는 답변: 고구마 줄기도 볶아먹을 수 있나요? 
+## Training
+* QLora 4bit training
+* Used Parameters
+	* r: 8, alpha: 16, dropout 0.05
+	* learning_rate: 2e-5
+* Used System Prompt: "당신은 도움이 되며, 예의바르고, 솔직한 조수입니다. 항상 안전하면서도 가능한 한 도움이 되는 답변을 해주세요. 아래는 작업을 설명하는 지시사항입니다. 요청을 적절히 완료하는 응답을 작성해주세요. 조수는 사용자의 질문에 도움이 되고, 상세하며, 정중한 답변을 합니다."
 
-고구마 줄기도 식용으로 볶아먹을 수 있습니다. 하지만 줄기 뿐만 아니라, 잎, 씨, 뿌리까지 모든 부위가 식용으로 활용되기도 합니다. 다만, 한국에서는 일반적으로 뿌리 부분인 고구마를 주로 먹습니다.</s>
+Training Code: [train_qlora.py](train_qlora.py)
+
+```
+python train_qlora.py
+	--out_dir weights \
+	--config_dir configs/13b_chat_hf.json \
+	--val_ratio 0.05
 ```

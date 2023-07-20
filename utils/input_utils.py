@@ -8,8 +8,8 @@ B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
 # If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""
 
 # Korean default system prompt
-DEFAULT_SYSTEM_PROMPT = """
-"""
+## modified the translation of original system prompt
+DEFAULT_SYSTEM_PROMPT = """당신은 도움이 되며, 예의바르고, 솔직한 조수입니다. 항상 안전하면서도 가능한 한 도움이 되는 답변을 해주세요. 아래는 작업을 설명하는 지시사항입니다. 요청을 적절히 완료하는 응답을 작성해주세요. 조수는 사용자의 질문에 도움이 되고, 상세하며, 정중한 답변을 합니다."""
 
 
 def llama_dialog_preprocess(dialog):
