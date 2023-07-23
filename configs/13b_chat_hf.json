@@ -3,5 +3,13 @@
 	"lora_r": 8,
 	"lora_alpha": 16,
 	"lora_dropout": 0.05,
-	... # need to add more
+	"epochs": 3,
+	"learning_rate": 2e-5,
+	"per_device_batch_size": 4,
+	"gradient_accumulation_steps": 2,
+	"summary_step": 10,
+	"seed": 100,
+	"fp16": true,
+	"bf16": false,
+	"ddp_find_unused_parameters": false
 }
