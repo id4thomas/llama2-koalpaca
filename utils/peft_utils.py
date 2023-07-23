@@ -28,10 +28,10 @@ def get_pretrained_model_for_kbit_training(model):
 	model = prepare_model_for_kbit_training(model)
 	return model
 
-def get_lora_config(config):
+def get_lora_config(config, inference_mode = False):
 	return LoraConfig(
 			task_type=TaskType.CAUSAL_LM, 
-			inference_mode=False, 
+			inference_mode=inference_mode, 
 			r = config["lora_r"], 
 			lora_alpha = config["lora_alpha"], 
 			lora_dropout = config["lora_dropout"],
