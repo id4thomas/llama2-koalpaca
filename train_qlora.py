@@ -85,12 +85,12 @@ val_ds = train_val_split["test"]
 
 train_ds_token_lens = get_token_lens(tokenizer, train_ds["text"])
 train_ds_selected_indicies = get_below_threshold_idxs(train_ds_token_lens, args.train_token_cutoff_threshold)
-train_ds = train_ds[train_ds_selected_indicies]
+train_ds = train_ds.select(train_ds_selected_indicies)
 print("New Train Size", len(train_ds["text"]))
 
 val_ds_token_lens = get_token_lens(tokenizer, val_ds["text"])
 val_ds_selected_indicies = get_below_threshold_idxs(val_ds_token_lens, args.train_token_cutoff_threshold)
-val_ds = val_ds[val_ds_selected_indicies]
+val_ds = val_ds.select(val_ds_selected_indicies)
 print("New Val Size", len(val_ds["text"]))
 
 train_ds = train_ds.map(lambda samples: tokenizer(samples["text"], add_special_tokens=False), batched=True)
