@@ -14,7 +14,8 @@ with open("auth_tokens.json", "r") as f:
 	HF_AUTH_TOKEN = json.loads(f.read)["hf_token"]
 
 # Import Utils
-from utils.input_utils import llama_dialog_preprocess, map_dialog_to_tokenizer_input, map_data_to_lambda_text
+from utils.input_utils import  map_data_to_lambda_text
+from utils.data_utils import get_token_lens, get_below_threshold_idxs
 from utils.train_utils import set_seed
 from utils.peft_utils import get_lora_config, get_lora_model, get_lora_save_param_dict
 from utils.peft_utils import get_pretrained_model_for_kbit_training, print_trainable_parameters
@@ -40,6 +41,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--out_dir', type=str, required=True)
 parser.add_argument('--config_dir', type=str, required=True)
 parser.add_argument('--val_ratio', type=float, default=0.01)
+parser.add_argument('--train_token_cutoff_threshold', type=int, default=1024)
 args = parser.parse_args()
 
 # Train Configs
@@ -80,6 +82,16 @@ data = data.map(
 train_val_split = data["train"].train_test_split(0.01)
 train_ds = train_val_split["train"]
 val_ds = train_val_split["test"]
+
+train_ds_token_lens = get_token_lens(tokenizer, train_ds["text"])
+train_ds_selected_indicies = get_below_threshold_idxs(train_ds_token_lens, args.train_token_cutoff_threshold)
+train_ds = train_ds[train_ds_selected_indicies]
+print("New Train Size", len(train_ds["text"]))
+
+val_ds_token_lens = get_token_lens(tokenizer, val_ds["text"])
+val_ds_selected_indicies = get_below_threshold_idxs(val_ds_token_lens, args.train_token_cutoff_threshold)
+val_ds = val_ds[val_ds_selected_indicies]
+print("New Val Size", len(val_ds["text"]))
 
 train_ds = train_ds.map(lambda samples: tokenizer(samples["text"], add_special_tokens=False), batched=True)
 val_ds = val_ds.map(lambda samples: tokenizer(samples["text"], add_special_tokens=False), batched=True)
